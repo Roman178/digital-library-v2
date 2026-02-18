@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="20260218-10-seed-data" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <and>
+                    <tableExists tableName="publications"/>
+                    <tableExists tableName="authors"/>
+                    <tableExists tableName="books"/>
+                    <tableExists tableName="magazine_issues"/>
+                    <tableExists tableName="comic_issues"/>
+                    <tableExists tableName="publication_items"/>
+                    <tableExists tableName="publication_authors"/>
+                    <tableExists tableName="readers"/>
+                    <tableExists tableName="loans"/>
+                </and>
+            </not>
+        </preConditions>
+        <insert tableName="authors">
+            <column name="full_name" value="George Orwell"/>
+        </insert>
+        <insert tableName="authors">
+            <column name="full_name" value="Aldous Huxley"/>
+        </insert>
+        <insert tableName="authors">
+            <column name="full_name" value="J.D. Salinger"/>
+        </insert>
+        <insert tableName="authors">
+            <column name="full_name" value="Harper Lee"/>
+        </insert>
+        <insert tableName="authors">
+            <column name="full_name" value="J.R.R. Tolkien"/>
+        </insert>
+        <insert tableName="authors">
+            <column name="full_name" value="J.K. Rowling"/>
+        </insert>
+
+        <insert tableName="publications">
+            <column name="type" value="BOOK"/>
+            <column name="title" value="1984"/>
+            <column name="genre" value="DYSTOPIAN"/>
+            <column name="publisher" value="Secker &amp; Warburg"/>
+            <column name="publication_year" valueNumeric="1949"/>
+        </insert>
+        <insert tableName="publications">
+            <column name="type" value="BOOK"/>
+            <column name="title" value="Brave New World"/>
+            <column name="genre" value="DYSTOPIAN"/>
+            <column name="publisher" value="Chatto &amp; Windus"/>
+            <column name="publication_year" valueNumeric="1932"/>
+        </insert>
+        <insert tableName="publications">
+            <column name="type" value="BOOK"/>
+            <column name="title" value="The Catcher in the Rye"/>
+            <column name="genre" value="CLASSIC"/>
+            <column name="publisher" value="Little, Brown and Company"/>
+            <column name="publication_year" valueNumeric="1951"/>
+        </insert>
+        <insert tableName="publications">
+            <column name="type" value="BOOK"/>
+            <column name="title" value="To Kill a Mockingbird"/>
+            <column name="genre" value="CLASSIC"/>
+            <column name="publisher" value="J.B. Lippincott &amp; Co."/>
+            <column name="publication_year" valueNumeric="1960"/>
+        </insert>
+        <insert tableName="publications">
+            <column name="type" value="BOOK"/>
+            <column name="title" value="The Hobbit"/>
+            <column name="genre" value="FANTASY"/>
+            <column name="publisher" value="George Allen &amp; Unwin"/>
+            <column name="publication_year" valueNumeric="1937"/>
+        </insert>
+        <insert tableName="publications">
+            <column name="type" value="BOOK"/>
+            <column name="title" value="Harry Potter and the Philosopher's Stone"/>
+            <column name="genre" value="FANTASY"/>
+            <column name="publisher" value="Bloomsbury"/>
+            <column name="publication_year" valueNumeric="1997"/>
+        </insert>
+
+        <insert tableName="books">
+            <column name="publication_id" valueNumeric="1"/>
+            <column name="isbn" value="9780451524935"/>
+            <column name="pages" valueNumeric="328"/>
+        </insert>
+        <insert tableName="books">
+            <column name="publication_id" valueNumeric="2"/>
+            <column name="isbn" value="9780060850524"/>
+            <column name="pages" valueNumeric="311"/>
+        </insert>
+        <insert tableName="books">
+            <column name="publication_id" valueNumeric="3"/>
+            <column name="isbn" value="9780316769488"/>
+            <column name="pages" valueNumeric="277"/>
+        </insert>
+        <insert tableName="books">
+            <column name="publication_id" valueNumeric="4"/>
+            <column name="isbn" value="9780061120084"/>
+            <column name="pages" valueNumeric="281"/>
+        </insert>
+        <insert tableName="books">
+            <column name="publication_id" valueNumeric="5"/>
+            <column name="isbn" value="9780261102217"/>
+            <column name="pages" valueNumeric="310"/>
+        </insert>
+        <insert tableName="books">
+            <column name="publication_id" valueNumeric="6"/>
+            <column name="isbn" value="9780747532699"/>
+            <column name="pages" valueNumeric="223"/>
+        </insert>
+
+        <insert tableName="publication_authors">
+            <column name="publication_id" valueNumeric="1"/>
+            <column name="author_id" valueNumeric="1"/>
+        </insert>
+        <insert tableName="publication_authors">
+            <column name="publication_id" valueNumeric="2"/>
+            <column name="author_id" valueNumeric="2"/>
+        </insert>
+        <insert tableName="publication_authors">
+            <column name="publication_id" valueNumeric="3"/>
+            <column name="author_id" valueNumeric="3"/>
+        </insert>
+        <insert tableName="publication_authors">
+            <column name="publication_id" valueNumeric="4"/>
+            <column name="author_id" valueNumeric="4"/>
+        </insert>
+        <insert tableName="publication_authors">
+            <column name="publication_id" valueNumeric="5"/>
+            <column name="author_id" valueNumeric="5"/>
+        </insert>
+        <insert tableName="publication_authors">
+            <column name="publication_id" valueNumeric="6"/>
+            <column name="author_id" valueNumeric="6"/>
+        </insert>
+
+        <insert tableName="publications">
+            <column name="type" value="MAGAZINE_ISSUE"/>
+            <column name="title" value="National Geographic — Issue 202"/>
+            <column name="genre" value="SCIENCE"/>
+            <column name="publisher" value="National Geographic Partners"/>
+            <column name="publication_year" valueNumeric="2024"/>
+        </insert>
+        <insert tableName="publications">
+            <column name="type" value="MAGAZINE_ISSUE"/>
+            <column name="title" value="National Geographic — Issue 203"/>
+            <column name="genre" value="SCIENCE"/>
+            <column name="publisher" value="National Geographic Partners"/>
+            <column name="publication_year" valueNumeric="2024"/>
+        </insert>
+
+        <insert tableName="magazine_issues">
+            <column name="publication_id" valueNumeric="7"/>
+            <column name="magazine_title" value="National Geographic"/>
+            <column name="issue_number" valueNumeric="202"/>
+            <column name="issn" value="0027-9358"/>
+            <column name="month" valueNumeric="9"/>
+        </insert>
+        <insert tableName="magazine_issues">
+            <column name="publication_id" valueNumeric="8"/>
+            <column name="magazine_title" value="National Geographic"/>
+            <column name="issue_number" valueNumeric="203"/>
+            <column name="issn" value="0027-9358"/>
+            <column name="month" valueNumeric="10"/>
+        </insert>
+
+        <insert tableName="publications">
+            <column name="type" value="COMIC_ISSUE"/>
+            <column name="title" value="Batman #5 (Vol. 3)"/>
+            <column name="genre" value="COMICS"/>
+            <column name="publisher" value="DC"/>
+            <column name="publication_year" valueNumeric="2016"/>
+        </insert>
+        <insert tableName="publications">
+            <column name="type" value="COMIC_ISSUE"/>
+            <column name="title" value="Batman #5 (Vol. 3)"/>
+            <column name="genre" value="COMICS"/>
+            <column name="publisher" value="DC"/>
+            <column name="publication_year" valueNumeric="2016"/>
+        </insert>
+
+        <delete tableName="publications">
+            <where>id = 10</where>
+        </delete>
+
+        <insert tableName="comic_issues">
+            <column name="publication_id" valueNumeric="9"/>
+            <column name="series_title" value="Batman (Vol. 3)"/>
+            <column name="issue_number" valueNumeric="5"/>
+            <column name="universe" value="DC"/>
+        </insert>
+
+        <insert tableName="publication_items">
+            <column name="publication_id" valueNumeric="1"/>
+            <column name="inventory_code" value="INV-000001"/>
+            <column name="status" value="AVAILABLE"/>
+        </insert>
+        <insert tableName="publication_items">
+            <column name="publication_id" valueNumeric="2"/>
+            <column name="inventory_code" value="INV-000002"/>
+            <column name="status" value="AVAILABLE"/>
+        </insert>
+        <insert tableName="publication_items">
+            <column name="publication_id" valueNumeric="3"/>
+            <column name="inventory_code" value="INV-000003"/>
+            <column name="status" value="AVAILABLE"/>
+        </insert>
+        <insert tableName="publication_items">
+            <column name="publication_id" valueNumeric="4"/>
+            <column name="inventory_code" value="INV-000004"/>
+            <column name="status" value="AVAILABLE"/>
+        </insert>
+        <insert tableName="publication_items">
+            <column name="publication_id" valueNumeric="5"/>
+            <column name="inventory_code" value="INV-000005"/>
+            <column name="status" value="AVAILABLE"/>
+        </insert>
+        <insert tableName="publication_items">
+            <column name="publication_id" valueNumeric="6"/>
+            <column name="inventory_code" value="INV-000006"/>
+            <column name="status" value="AVAILABLE"/>
+        </insert>
+        <insert tableName="publication_items">
+            <column name="publication_id" valueNumeric="7"/>
+            <column name="inventory_code" value="INV-000007"/>
+            <column name="status" value="AVAILABLE"/>
+        </insert>
+        <insert tableName="publication_items">
+            <column name="publication_id" valueNumeric="7"/>
+            <column name="inventory_code" value="INV-000008"/>
+            <column name="status" value="AVAILABLE"/>
+        </insert>
+        <insert tableName="publication_items">
+            <column name="publication_id" valueNumeric="9"/>
+            <column name="inventory_code" value="INV-000009"/>
+            <column name="status" value="AVAILABLE"/>
+        </insert>
+        <insert tableName="publication_items">
+            <column name="publication_id" valueNumeric="9"/>
+            <column name="inventory_code" value="INV-000010"/>
+            <column name="status" value="AVAILABLE"/>
+        </insert>
+        <insert tableName="publication_items">
+            <column name="publication_id" valueNumeric="9"/>
+            <column name="inventory_code" value="INV-000011"/>
+            <column name="status" value="AVAILABLE"/>
+        </insert>
+
+        <insert tableName="readers">
+            <column name="full_name" value="Ivan Petrov"/>
+            <column name="email" value="ivan.petrov@example.com"/>
+        </insert>
+        <insert tableName="readers">
+            <column name="full_name" value="Anna Smirnova"/>
+            <column name="email" value="anna.smirnova@example.com"/>
+        </insert>
+
+        <insert tableName="loans">
+            <column name="publication_item_id" valueNumeric="9"/>
+            <column name="reader_id" valueNumeric="1"/>
+            <column name="loaned_at" valueComputed="datetime('now', '-1 day')"/>
+            <column name="due_at" valueComputed="datetime('now', '+13 day')"/>
+            <column name="status" value="ACTIVE"/>
+        </insert>
+        <insert tableName="loans">
+            <column name="publication_item_id" valueNumeric="7"/>
+            <column name="reader_id" valueNumeric="2"/>
+            <column name="loaned_at" valueComputed="datetime('now', '-20 day')"/>
+            <column name="due_at" valueComputed="datetime('now', '-6 day')"/>
+            <column name="returned_at" valueComputed="datetime('now', '-5 day')"/>
+            <column name="status" value="RETURNED"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

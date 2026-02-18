@@ -6,9 +6,9 @@ import org.example.service.CLIService;
 public class Main {
     public static void main(String[] args) {
         DbCreator.createConnection();
-        DbCreator.createTables();
+        DbCreator.runInitialMigrations();
 
-        CLIService cliService = new CLIService();
-        cliService.parseLine();
+//        CLIService cliService = new CLIService();
+//        cliService.parseLine();
     }
 }

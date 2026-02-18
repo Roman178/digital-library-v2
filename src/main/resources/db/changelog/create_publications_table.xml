@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1771308122693-1" author="r.ismagilov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="publications"/>
+            </not>
+        </preConditions>
+        <createTable tableName="publications">
+            <column name="id" type="integer" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_publications"/>
+            </column>
+            <column name="type" type="nvarchar(255)">
+                <constraints nullable="false" checkConstraint="type IN ('BOOK', 'MAGAZINE_ISSUE', 'COMIC_ISSUE')"/>
+            </column>
+
+            <column name="title" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="genre" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="publisher" type="nvarchar(255)">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="publication_year" type="int">
+                <constraints nullable="false" checkConstraint="publication_year > 0"/>
+            </column>
+
+            <column name="created_at" type="datetime" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="updated_at" type="datetime" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

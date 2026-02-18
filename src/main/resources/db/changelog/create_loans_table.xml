@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="20260218-08-create-loans-table" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="loans"/>
+            </not>
+        </preConditions>
+        <createTable tableName="loans">
+            <column name="id" type="integer" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_loans"/>
+            </column>
+            <column name="publication_item_id" type="integer">
+                <constraints nullable="false"
+                             referencedTableName="publication_items"
+                             referencedColumnNames="id"
+                             foreignKeyName="fk_loans_publication_items"/>
+            </column>
+            <column name="reader_id" type="integer">
+                <constraints nullable="false"
+                             referencedTableName="readers"
+                             referencedColumnNames="id"
+                             foreignKeyName="fk_loans_readers"/>
+            </column>
+            <column name="loaned_at" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="due_at" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="returned_at" type="date"/>
+            <column name="status" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+    </changeSet>
+
+</databaseChangeLog>

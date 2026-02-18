@@ -12,7 +12,9 @@ public enum Query {
     SCHEMA_PUBLICATION_AUTHORS("sql/schema_publication_authors.sql"),
     SCHEMA_PUBLICATION_ITEMS("sql/schema_publication_items.sql"),
     SCHEMA_PUBLICATIONS("sql/schema_publications.sql"),
-    SCHEMA_READERS("sql/schema_readers.sql");
+    SCHEMA_READERS("sql/schema_readers.sql"),
+
+    SEED("sql/seed.sql");
 
     private final String sql;
 

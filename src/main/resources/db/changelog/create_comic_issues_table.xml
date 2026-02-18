@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="20260218-04-create-comic-issues-table" author="r.ismagilov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="comic_issues"/>
+            </not>
+        </preConditions>
+        <createTable tableName="comic_issues">
+            <column name="id" type="integer" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_comic_issues"/>
+            </column>
+            <column name="publication_id" type="integer">
+                <constraints nullable="false"
+                             referencedTableName="publications"
+                             referencedColumnNames="id"
+                             foreignKeyName="fk_comic_issues_publications"
+                             deleteCascade="true"/>
+            </column>
+            <column name="series_title" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="issue_number" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="universe" type="nvarchar(255)"/>
+            <column name="created_at" type="datetime" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="datetime" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="comic_issues"
+                     indexName="ux_comic_issues_issue_series_publication"
+                     unique="true">
+            <column name="issue_number"/>
+            <column name="series_title"/>
+            <column name="publication_id"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

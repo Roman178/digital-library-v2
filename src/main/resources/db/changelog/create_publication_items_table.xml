@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="20260218-06-create-publication-items-table" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="publication_items"/>
+            </not>
+        </preConditions>
+        <createTable tableName="publication_items">
+            <column name="id" type="integer" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_publication_items"/>
+            </column>
+            <column name="publication_id" type="integer">
+                <constraints nullable="false"
+                             referencedTableName="publications"
+                             referencedColumnNames="id"
+                             foreignKeyName="fk_publication_items_publications"/>
+            </column>
+            <column name="inventory_code" type="nvarchar(255)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="ux_publication_items_inventory_code"/>
+            </column>
+            <column name="status" type="nvarchar(255)">
+                <constraints nullable="false" checkConstraint="status IN ('AVAILABLE', 'LOANED', 'LOST', 'DAMAGED')"/>
+            </column>
+            <column name="created_at" type="datetime" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="datetime" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+    </changeSet>
+
+</databaseChangeLog>

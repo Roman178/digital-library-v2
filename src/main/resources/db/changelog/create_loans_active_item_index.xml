@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="20260218-09-create-ux-loans-active-item" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists tableName="loans" indexName="ux_loans_active_item"/>
+            </not>
+        </preConditions>
+        <sql>CREATE UNIQUE INDEX IF NOT EXISTS ux_loans_active_item
+            ON loans (publication_item_id)
+            WHERE returned_at IS NULL</sql>
+    </changeSet>
+
+</databaseChangeLog>
