@@ -1,4 +1,4 @@
-package org.example.domain;
+package org.example.domain.model;
 
 public class MagazineIssue extends Publication {
     String magazineTitle;

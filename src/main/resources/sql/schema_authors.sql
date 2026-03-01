@@ -1,8 +1,0 @@
-CREATE TABLE IF NOT EXISTS authors
-(
-    id INTEGER PRIMARY KEY,
-    full_name TEXT NOT NULL,
-    created_at TEXT NOT NULL DEFAULT (CURRENT_TIMESTAMP),
-    updated_at TEXT NOT NULL DEFAULT (CURRENT_TIMESTAMP),
-    UNIQUE (full_name)
-)

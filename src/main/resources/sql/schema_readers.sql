@@ -1,9 +1,0 @@
-CREATE TABLE IF NOT EXISTS readers
-(
-    id         INTEGER PRIMARY KEY,
-    full_name  TEXT NOT NULL,
-    email      TEXT NOT NULL,
-    created_at TEXT NOT NULL DEFAULT (CURRENT_TIMESTAMP),
-    updated_at TEXT NOT NULL DEFAULT (CURRENT_TIMESTAMP),
-    UNIQUE (email)
-)

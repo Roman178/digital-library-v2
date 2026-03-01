@@ -1,6 +1,7 @@
-package org.example.domain;
+package org.example.domain.model;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 public class Loan {
@@ -10,4 +11,8 @@ public class Loan {
     LocalDate issuedAt;
     LocalDate dueAt;
     LocalDate returnedAt;
+
+    public static void handleCommands(List<String> listOfCommands) {
+
+    }
 }

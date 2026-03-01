@@ -1,4 +1,4 @@
-package org.example.domain;
+package org.example.domain.model;
 
 public class Newspaper extends Publication {
 }

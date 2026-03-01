@@ -8,7 +8,12 @@ public class Main {
         DbCreator.createConnection();
         DbCreator.runInitialMigrations();
 
-//        CLIService cliService = new CLIService();
-//        cliService.parseLine();
+
+
+        CLIService cliService = new CLIService();
+
+        while (cliService.isNotTerminated()) {
+            cliService.parseLine();
+        }
     }
 }

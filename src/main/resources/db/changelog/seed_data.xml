@@ -6,20 +6,19 @@
                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
     <changeSet id="20260218-10-seed-data" author="codex">
-        <preConditions onFail="MARK_RAN">
-            <not>
-                <and>
-                    <tableExists tableName="publications"/>
-                    <tableExists tableName="authors"/>
-                    <tableExists tableName="books"/>
-                    <tableExists tableName="magazine_issues"/>
-                    <tableExists tableName="comic_issues"/>
-                    <tableExists tableName="publication_items"/>
-                    <tableExists tableName="publication_authors"/>
-                    <tableExists tableName="readers"/>
-                    <tableExists tableName="loans"/>
-                </and>
-            </not>
+        <preConditions onFail="MARK_RAN" onError="MARK_RAN">
+            <and>
+                <tableExists tableName="publications"/>
+                <tableExists tableName="authors"/>
+                <tableExists tableName="books"/>
+                <tableExists tableName="magazine_issues"/>
+                <tableExists tableName="comic_issues"/>
+                <tableExists tableName="publication_items"/>
+                <tableExists tableName="publication_authors"/>
+                <tableExists tableName="readers"/>
+                <tableExists tableName="loans"/>
+                <sqlCheck expectedResult="0">SELECT COUNT(1) FROM publications</sqlCheck>
+            </and>
         </preConditions>
         <insert tableName="authors">
             <column name="full_name" value="George Orwell"/>
