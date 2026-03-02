@@ -1,9 +1,6 @@
 package org.example.service;
 
-import org.example.domain.model.EntityType;
-import org.example.domain.model.Loan;
-import org.example.domain.model.Publication;
-import org.example.domain.model.Reader;
+import org.example.domain.model.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,8 +10,12 @@ public class CLIService {
     private final Scanner scanner = new Scanner(System.in);
     private boolean isNotTerminated = true;
 
-    public boolean isNotTerminated() {
+    public boolean getIsNotTerminated() {
         return isNotTerminated;
+    }
+
+    private void setIsNotTerminated(boolean notTerminated) {
+        isNotTerminated = notTerminated;
     }
 
     public void parseLine() {
@@ -22,7 +23,7 @@ public class CLIService {
 
         if (line.trim()
                 .equals("exit")) {
-            isNotTerminated = false;
+            setIsNotTerminated(false);
             return;
         }
 
@@ -30,21 +31,21 @@ public class CLIService {
     }
 
     private void handleLine(String line) {
-        List<String> listOfCommands = Arrays.stream(line.split(","))
+        List<String> inputStrings = Arrays.stream(line.split(","))
                 .map(String::trim)
                 .toList();
 
-        String entity = listOfCommands.get(1);
+        String entity = inputStrings.get(0);
+        EntityType type = EntityType.from(entity);
 
-        switch (EntityType.from(entity)) {
-            case LOAN -> Loan.handleCommands(listOfCommands);
-            case READER -> Reader.handleCommands(listOfCommands);
-            case PUBLICATION -> Publication.handleCommands(listOfCommands);
+        if (type == null) return;
+
+        switch (type) {
+            case LOAN -> Loan.handleCommands(inputStrings);
+            case READER -> Reader.handleCommands(inputStrings);
+            case PUB, ITEM -> Publication.handleCommands(inputStrings);
+            case REPORT -> Report.handleCommands(inputStrings);
+            default -> System.out.println("Ошибка при вводе команд, введите заново");
         }
-    }
-
-
-    public void setNotTerminated(boolean notTerminated) {
-        isNotTerminated = notTerminated;
     }
 }
