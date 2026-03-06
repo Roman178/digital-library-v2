@@ -1,5 +1,7 @@
 package org.example.domain.model;
 
+import org.example.domain.exception.HandleLineException;
+
 import java.util.Arrays;
 
 public enum EntityType {
@@ -14,7 +16,7 @@ public enum EntityType {
         try {
             entityType = EntityType.valueOf(inputValue.toUpperCase());
         } catch (IllegalArgumentException e) {
-            System.out.println("ВВедена неправильная команда ");
+            throw new HandleLineException("ВВедена неправильная команда " + inputValue + e);
         }
 
         return entityType;

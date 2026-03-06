@@ -13,15 +13,5 @@ public class Main {
         AppRunner appRunner = new AppRunner(new CLIService(), new ErrorPrinter());
 
         appRunner.run();
-
-//        CLIService cliService = new CLIService();
-//
-//        while (cliService.getIsNotTerminated()) {
-//            try {
-//                cliService.parseLine();
-//            } catch (Exception e) {
-//                throw new RuntimeException(e);
-//            }
-//        }
     }
 }

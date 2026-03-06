@@ -1,5 +1,6 @@
 package org.example.service;
 
+import org.example.domain.exception.HandleLineException;
 import org.example.domain.model.*;
 
 import java.util.Arrays;
@@ -41,11 +42,11 @@ public class CLIService {
         if (type == null) return;
 
         switch (type) {
-            case LOAN -> Loan.handleCommands(inputStrings);
             case READER -> Reader.handleCommands(inputStrings);
+            case LOAN -> Loan.handleCommands(inputStrings);
             case PUB, ITEM -> Publication.handleCommands(inputStrings);
             case REPORT -> Report.handleCommands(inputStrings);
-            default -> System.out.println("Ошибка при вводе команд, введите заново");
+            default -> throw new HandleLineException("Введена неизвестная команда");
         }
     }
 }
