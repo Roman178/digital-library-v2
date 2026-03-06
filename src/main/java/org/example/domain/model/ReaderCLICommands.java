@@ -1,11 +1,17 @@
 package org.example.domain.model;
 
+import org.example.domain.exception.HandleLineException;
+
 public enum ReaderCLICommands {
     ADD,
     LIST,
     GET;
 
     public static ReaderCLICommands from(String inputValue) {
-        return ReaderCLICommands.valueOf(inputValue.toUpperCase());
+        try {
+            return ReaderCLICommands.valueOf(inputValue.toUpperCase());
+        } catch (RuntimeException e) {
+            throw new HandleLineException("Readers: введена неправильная команда");
+        }
     }
 }

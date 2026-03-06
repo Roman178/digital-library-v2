@@ -9,7 +9,12 @@ import java.util.Scanner;
 
 public class CLIService {
     private final Scanner scanner = new Scanner(System.in);
+    private final ReaderService readerService;
     private boolean isNotTerminated = true;
+
+    public CLIService(ReaderService readerService) {
+        this.readerService = readerService;
+    }
 
     public boolean getIsNotTerminated() {
         return isNotTerminated;
@@ -32,7 +37,7 @@ public class CLIService {
     }
 
     private void handleLine(String line) {
-        List<String> inputStrings = Arrays.stream(line.split(","))
+        List<String> inputStrings = Arrays.stream(line.split(" "))
                 .map(String::trim)
                 .toList();
 
@@ -42,7 +47,7 @@ public class CLIService {
         if (type == null) return;
 
         switch (type) {
-            case READER -> Reader.handleCommands(inputStrings);
+            case READER -> readerService.handleCommands(inputStrings);
             case LOAN -> Loan.handleCommands(inputStrings);
             case PUB, ITEM -> Publication.handleCommands(inputStrings);
             case REPORT -> Report.handleCommands(inputStrings);

@@ -15,7 +15,7 @@ public class DbCreator {
     private static Connection conn;
     private static String changelogPath = "db/changelog/changelog.xml";
 
-    public static void createConnection() {
+    public static Connection createConnection() {
         try {
             conn = DriverManager.getConnection(url);
             conn.createStatement().execute("PRAGMA foreign_keys = ON;");
@@ -23,6 +23,7 @@ public class DbCreator {
             throw new RuntimeException("Ошибка соединения с БД ", e);
         }
 
+        return conn;
     }
 
     public static void runInitialMigrations() {
