@@ -4,7 +4,9 @@ import org.example.domain.exception.HandleLineException;
 import org.example.domain.model.Reader;
 import org.example.domain.model.ReaderCLICommands;
 import org.example.repository.ReaderRepository;
+import org.example.util.CLIArgsParser;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class ReaderService {
@@ -27,6 +29,7 @@ public class ReaderService {
     }
 
     private void createReader(List<String> args) {
-
+        Reader newReader = Reader.from(CLIArgsParser.parse(args));
+        readerRepository.createReader(newReader);
     }
 }
