@@ -1,10 +1,9 @@
 package org.example.domain.model;
 
-import java.util.List;
 import java.util.Map;
 
 public record Reader(String fullName,
-                     ReaderStatus readerStatus,
+                     ReaderStatus status,
                      String email) {
     public static Reader from(Map argsMap) {
         String fullName = (String) argsMap.get("fullName");
