@@ -16,8 +16,8 @@ public class CLIArgsParser {
                 throw new HandleLineException("Неверный аргумент " + arg);
             }
 
-            String key = keyVal[0];
-            String val = keyVal[1];
+            String key = keyVal[0].trim();
+            String val = keyVal[1].trim();
 
             if (key.isEmpty() || val.isEmpty()) {
                 throw new HandleLineException("Пустой ключ или значение " + arg);

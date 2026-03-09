@@ -3,6 +3,7 @@ package org.example.service;
 import org.example.domain.exception.HandleLineException;
 import org.example.domain.model.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -37,9 +38,26 @@ public class CLIService {
     }
 
     private void handleLine(String line) {
-        List<String> inputStrings = Arrays.stream(line.split(" "))
+        List<String> segments = Arrays.stream(line.split(";"))
                 .map(String::trim)
+                .filter(part -> !part.isEmpty())
                 .toList();
+
+        if (segments.isEmpty()) {
+            throw new HandleLineException("Пустая команда");
+        }
+
+        List<String> inputStrings = new ArrayList<>();
+        inputStrings.addAll(Arrays.stream(segments.get(0).split("\\s+"))
+                .map(String::trim)
+                .filter(part -> !part.isEmpty())
+                .toList());
+
+        inputStrings.addAll(segments.subList(1, segments.size()));
+
+        if (inputStrings.isEmpty()) {
+            throw new HandleLineException("Пустая команда");
+        }
 
         String entity = inputStrings.get(0);
         EntityType type = EntityType.from(entity);

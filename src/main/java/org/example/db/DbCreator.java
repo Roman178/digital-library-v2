@@ -18,7 +18,8 @@ public class DbCreator {
     public static Connection createConnection() {
         try {
             conn = DriverManager.getConnection(url);
-            conn.createStatement().execute("PRAGMA foreign_keys = ON;");
+            conn.createStatement()
+                    .execute("PRAGMA foreign_keys = ON;");
         } catch (SQLException e) {
             throw new RuntimeException("Ошибка соединения с БД ", e);
         }
@@ -28,7 +29,8 @@ public class DbCreator {
 
     public static void runInitialMigrations() {
         try {
-            Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(conn));
+            Database database = DatabaseFactory.getInstance()
+                    .findCorrectDatabaseImplementation(new JdbcConnection(conn));
             Liquibase liquibase = new Liquibase(changelogPath, new ClassLoaderResourceAccessor(), database);
             liquibase.update();
         } catch (DatabaseException e) {
