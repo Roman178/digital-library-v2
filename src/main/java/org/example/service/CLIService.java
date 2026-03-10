@@ -1,20 +1,36 @@
 package org.example.service;
 
 import org.example.domain.exception.HandleLineException;
-import org.example.domain.model.*;
+import org.example.domain.model.EntityType;
+import org.example.domain.model.Loan;
+import org.example.domain.model.Publication;
+import org.example.domain.model.Report;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 public class CLIService {
     private final Scanner scanner = new Scanner(System.in);
+
     private final ReaderService readerService;
+    private final LoanService loanService;
+    private final PublicationService publicationService;
+    private final ReportService reportService;
+    private final PubItemService pubItemService;
+
     private boolean isNotTerminated = true;
 
-    public CLIService(ReaderService readerService) {
+    public CLIService(ReaderService readerService,
+                      LoanService loanService,
+                      PublicationService publicationService,
+                      ReportService reportService,
+                      PubItemService pubItemService) {
         this.readerService = readerService;
+        this.loanService = loanService;
+        this.publicationService = publicationService;
+        this.reportService = reportService;
+        this.pubItemService = pubItemService;
     }
 
     public boolean getIsNotTerminated() {
@@ -38,22 +54,10 @@ public class CLIService {
     }
 
     private void handleLine(String line) {
-        List<String> segments = Arrays.stream(line.split(";"))
+        List<String> inputStrings = Arrays.stream(line.split(";"))
                 .map(String::trim)
                 .filter(part -> !part.isEmpty())
                 .toList();
-
-        if (segments.isEmpty()) {
-            throw new HandleLineException("Пустая команда");
-        }
-
-        List<String> inputStrings = new ArrayList<>();
-        inputStrings.addAll(Arrays.stream(segments.get(0).split("\\s+"))
-                .map(String::trim)
-                .filter(part -> !part.isEmpty())
-                .toList());
-
-        inputStrings.addAll(segments.subList(1, segments.size()));
 
         if (inputStrings.isEmpty()) {
             throw new HandleLineException("Пустая команда");
@@ -67,7 +71,8 @@ public class CLIService {
         switch (type) {
             case READER -> readerService.handleCommands(inputStrings);
             case LOAN -> Loan.handleCommands(inputStrings);
-            case PUB, ITEM -> Publication.handleCommands(inputStrings);
+            case PUB -> publicationService.handleCommands(inputStrings);
+            case ITEM -> pubItemService.handleCommands(inputStrings);
             case REPORT -> Report.handleCommands(inputStrings);
             default -> throw new HandleLineException("Введена неизвестная команда");
         }

@@ -10,11 +10,5 @@ public abstract class Publication {
     int year;
 
 
-    public static void handleCommands(List<String> inputStrings) {
-        try {
-            PublicationCLICommands cliCommand = PublicationCLICommands.valueOf(inputStrings.get(1));
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException(e);
-        }
-    }
+
 }

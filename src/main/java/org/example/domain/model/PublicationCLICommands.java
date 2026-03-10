@@ -1,16 +1,20 @@
 package org.example.domain.model;
 
+import org.example.domain.exception.HandleLineException;
+
 public enum PublicationCLICommands {
-    ADD("add"),
-    LIST("list"),
-    GET("get"),
-    SEARCH("search"),
-    FILTER("filter"),
-    SORT("sort");
+    ADD,
+    LIST,
+    GET,
+    SEARCH,
+    FILTER,
+    SORT;
 
-    private final String value;
-
-    PublicationCLICommands(String value) {
-        this.value = value;
+    public static PublicationCLICommands from(String inputValue) {
+        try {
+            return PublicationCLICommands.valueOf(inputValue.toUpperCase());
+        } catch (RuntimeException e) {
+            throw new HandleLineException("Введена неправильная команда читателей");
+        }
     }
 }

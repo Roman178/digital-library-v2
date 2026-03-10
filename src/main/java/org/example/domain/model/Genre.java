@@ -1,5 +1,5 @@
 package org.example.domain.model;
 
 public enum Genre {
-    CLASSIC, FANTASY, SCIFI, HISTORY, CHILDREN, COMICS
+    CLASSIC, FANTASY, SCIFI, HISTORY, CHILDREN
 }

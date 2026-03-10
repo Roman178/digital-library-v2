@@ -11,7 +11,7 @@ public enum ReaderCLICommands {
         try {
             return ReaderCLICommands.valueOf(inputValue.toUpperCase());
         } catch (RuntimeException e) {
-            throw new HandleLineException("Readers: введена неправильная команда");
+            throw new HandleLineException("Введена неправильная команда читателей");
         }
     }
 }
