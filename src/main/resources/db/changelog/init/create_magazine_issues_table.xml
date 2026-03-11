@@ -8,29 +8,20 @@
     <changeSet id="20260218-05-create-magazine-issues-table" author="codex">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="magazine_issues"/>
+                <tableExists tableName="magazines"/>
             </not>
         </preConditions>
-        <createTable tableName="magazine_issues">
+        <createTable tableName="magazines">
             <column name="id" type="integer" autoIncrement="true">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_magazine_issues"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_magazines"/>
             </column>
-            <column name="magazine_title" type="nvarchar(255)">
+            <column name="issue" type="int">
                 <constraints nullable="false"/>
-            </column>
-            <column name="issue_number" type="int">
-                <constraints nullable="false"/>
-            </column>
-            <column name="issn" type="nvarchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="month" type="int">
-                <constraints checkConstraint="month IN (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)"/>
             </column>
             <column name="publication_id" type="integer">
                 <constraints referencedTableName="publications"
                              referencedColumnNames="id"
-                             foreignKeyName="fk_magazine_issues_publications"
+                             foreignKeyName="fk_magazines_publications"
                              deleteCascade="true"/>
             </column>
             <column name="created_at" type="datetime" defaultValueComputed="CURRENT_TIMESTAMP">
@@ -41,11 +32,10 @@
             </column>
         </createTable>
 
-        <createIndex tableName="magazine_issues"
-                     indexName="ux_magazine_issues_issn_issue_publication"
+        <createIndex tableName="magazines"
+                     indexName="ux_magazines_issue_publication"
                      unique="true">
-            <column name="issn"/>
-            <column name="issue_number"/>
+            <column name="issue"/>
             <column name="publication_id"/>
         </createIndex>
     </changeSet>

@@ -11,8 +11,8 @@
                 <tableExists tableName="publications"/>
                 <tableExists tableName="authors"/>
                 <tableExists tableName="books"/>
-                <tableExists tableName="magazine_issues"/>
-                <tableExists tableName="comic_issues"/>
+                <tableExists tableName="magazines"/>
+                <tableExists tableName="comics"/>
                 <tableExists tableName="publication_items"/>
                 <tableExists tableName="publication_authors"/>
                 <tableExists tableName="readers"/>
@@ -43,74 +43,68 @@
             <column name="type" value="BOOK"/>
             <column name="title" value="1984"/>
             <column name="genre" value="DYSTOPIAN"/>
-            <column name="publisher" value="Secker &amp; Warburg"/>
-            <column name="publication_year" valueNumeric="1949"/>
+            <column name="year" valueNumeric="1949"/>
         </insert>
         <insert tableName="publications">
             <column name="type" value="BOOK"/>
             <column name="title" value="Brave New World"/>
             <column name="genre" value="DYSTOPIAN"/>
-            <column name="publisher" value="Chatto &amp; Windus"/>
-            <column name="publication_year" valueNumeric="1932"/>
+            <column name="year" valueNumeric="1932"/>
         </insert>
         <insert tableName="publications">
             <column name="type" value="BOOK"/>
             <column name="title" value="The Catcher in the Rye"/>
             <column name="genre" value="CLASSIC"/>
-            <column name="publisher" value="Little, Brown and Company"/>
-            <column name="publication_year" valueNumeric="1951"/>
+            <column name="year" valueNumeric="1951"/>
         </insert>
         <insert tableName="publications">
             <column name="type" value="BOOK"/>
             <column name="title" value="To Kill a Mockingbird"/>
             <column name="genre" value="CLASSIC"/>
-            <column name="publisher" value="J.B. Lippincott &amp; Co."/>
-            <column name="publication_year" valueNumeric="1960"/>
+            <column name="year" valueNumeric="1960"/>
         </insert>
         <insert tableName="publications">
             <column name="type" value="BOOK"/>
             <column name="title" value="The Hobbit"/>
             <column name="genre" value="FANTASY"/>
-            <column name="publisher" value="George Allen &amp; Unwin"/>
-            <column name="publication_year" valueNumeric="1937"/>
+            <column name="year" valueNumeric="1937"/>
         </insert>
         <insert tableName="publications">
             <column name="type" value="BOOK"/>
             <column name="title" value="Harry Potter and the Philosopher's Stone"/>
             <column name="genre" value="FANTASY"/>
-            <column name="publisher" value="Bloomsbury"/>
-            <column name="publication_year" valueNumeric="1997"/>
+            <column name="year" valueNumeric="1997"/>
         </insert>
 
         <insert tableName="books">
             <column name="publication_id" valueNumeric="1"/>
             <column name="isbn" value="9780451524935"/>
-            <column name="pages" valueNumeric="328"/>
+            <column name="author_id" valueNumeric="1"/>
         </insert>
         <insert tableName="books">
             <column name="publication_id" valueNumeric="2"/>
             <column name="isbn" value="9780060850524"/>
-            <column name="pages" valueNumeric="311"/>
+            <column name="author_id" valueNumeric="2"/>
         </insert>
         <insert tableName="books">
             <column name="publication_id" valueNumeric="3"/>
             <column name="isbn" value="9780316769488"/>
-            <column name="pages" valueNumeric="277"/>
+            <column name="author_id" valueNumeric="3"/>
         </insert>
         <insert tableName="books">
             <column name="publication_id" valueNumeric="4"/>
             <column name="isbn" value="9780061120084"/>
-            <column name="pages" valueNumeric="281"/>
+            <column name="author_id" valueNumeric="4"/>
         </insert>
         <insert tableName="books">
             <column name="publication_id" valueNumeric="5"/>
             <column name="isbn" value="9780261102217"/>
-            <column name="pages" valueNumeric="310"/>
+            <column name="author_id" valueNumeric="5"/>
         </insert>
         <insert tableName="books">
             <column name="publication_id" valueNumeric="6"/>
             <column name="isbn" value="9780747532699"/>
-            <column name="pages" valueNumeric="223"/>
+            <column name="author_id" valueNumeric="6"/>
         </insert>
 
         <insert tableName="publication_authors">
@@ -139,59 +133,38 @@
         </insert>
 
         <insert tableName="publications">
-            <column name="type" value="MAGAZINE_ISSUE"/>
-            <column name="title" value="National Geographic — Issue 202"/>
+            <column name="type" value="MAGAZINE"/>
+            <column name="title" value="National Geographic Issue 202"/>
             <column name="genre" value="SCIENCE"/>
-            <column name="publisher" value="National Geographic Partners"/>
-            <column name="publication_year" valueNumeric="2024"/>
+            <column name="year" valueNumeric="2024"/>
         </insert>
         <insert tableName="publications">
-            <column name="type" value="MAGAZINE_ISSUE"/>
-            <column name="title" value="National Geographic — Issue 203"/>
+            <column name="type" value="MAGAZINE"/>
+            <column name="title" value="National Geographic Issue 203"/>
             <column name="genre" value="SCIENCE"/>
-            <column name="publisher" value="National Geographic Partners"/>
-            <column name="publication_year" valueNumeric="2024"/>
+            <column name="year" valueNumeric="2024"/>
         </insert>
 
-        <insert tableName="magazine_issues">
+        <insert tableName="magazines">
             <column name="publication_id" valueNumeric="7"/>
-            <column name="magazine_title" value="National Geographic"/>
-            <column name="issue_number" valueNumeric="202"/>
-            <column name="issn" value="0027-9358"/>
-            <column name="month" valueNumeric="9"/>
+            <column name="issue" valueNumeric="202"/>
         </insert>
-        <insert tableName="magazine_issues">
+        <insert tableName="magazines">
             <column name="publication_id" valueNumeric="8"/>
-            <column name="magazine_title" value="National Geographic"/>
-            <column name="issue_number" valueNumeric="203"/>
-            <column name="issn" value="0027-9358"/>
-            <column name="month" valueNumeric="10"/>
+            <column name="issue" valueNumeric="203"/>
         </insert>
 
         <insert tableName="publications">
-            <column name="type" value="COMIC_ISSUE"/>
+            <column name="type" value="COMIC"/>
             <column name="title" value="Batman #5 (Vol. 3)"/>
             <column name="genre" value="COMICS"/>
-            <column name="publisher" value="DC"/>
-            <column name="publication_year" valueNumeric="2016"/>
-        </insert>
-        <insert tableName="publications">
-            <column name="type" value="COMIC_ISSUE"/>
-            <column name="title" value="Batman #5 (Vol. 3)"/>
-            <column name="genre" value="COMICS"/>
-            <column name="publisher" value="DC"/>
-            <column name="publication_year" valueNumeric="2016"/>
+            <column name="year" valueNumeric="2016"/>
         </insert>
 
-        <delete tableName="publications">
-            <where>id = 10</where>
-        </delete>
-
-        <insert tableName="comic_issues">
+        <insert tableName="comics">
             <column name="publication_id" valueNumeric="9"/>
-            <column name="series_title" value="Batman (Vol. 3)"/>
-            <column name="issue_number" valueNumeric="5"/>
-            <column name="universe" value="DC"/>
+            <column name="series" value="Batman (Vol. 3)"/>
+            <column name="issue" valueNumeric="5"/>
         </insert>
 
         <insert tableName="publication_items">

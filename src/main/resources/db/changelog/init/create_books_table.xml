@@ -24,8 +24,10 @@
             <column name="isbn" type="nvarchar(255)">
                 <constraints nullable="false" unique="true" uniqueConstraintName="ux_books_isbn"/>
             </column>
-            <column name="pages" type="int">
-                <constraints nullable="false" checkConstraint="pages > 0"/>
+            <column name="author_id" type="integer">
+                <constraints referencedTableName="authors"
+                             referencedColumnNames="id"
+                             foreignKeyName="fk_books_authors"/>
             </column>
             <column name="created_at" type="datetime" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false"/>

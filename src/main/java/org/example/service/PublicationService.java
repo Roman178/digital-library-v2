@@ -1,8 +1,10 @@
 package org.example.service;
 
+import org.example.domain.model.Book;
 import org.example.domain.model.PublicationCLICommands;
 import org.example.domain.model.PublicationType;
 import org.example.repository.PublicationRepository;
+import org.example.util.CLIArgsParser;
 
 import java.util.List;
 
@@ -52,11 +54,16 @@ public class PublicationService {
     private void createPublication(List<String> sublistOfCommands) {
         String pubType = sublistOfCommands.get(0);
         PublicationType type = PublicationType.from(pubType);
+        List<String> args = sublistOfCommands.subList(1, sublistOfCommands.size());
 
-//        switch (type) {
-//            case BOOK -> ;
-//            case COMIC -> ;
-//            case MAGAZINE -> ;
-//        }
+
+        switch (type) {
+            case BOOK -> {
+//                Book book =
+//                publicationRepository.createBook(CLIArgsParser.parse(args));
+            }
+            case COMIC -> publicationRepository.createComic(CLIArgsParser.parse(args));
+            case MAGAZINE -> publicationRepository.createMagazine(CLIArgsParser.parse(args));
+        }
     }
 }

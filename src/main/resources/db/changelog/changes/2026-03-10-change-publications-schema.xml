@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="2026-03-10-change-publications-schema" author="r.ismagilov">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <tableExists tableName="publications"/>
+                <or>
+                    <columnExists tableName="publications" columnName="publisher"/>
+                    <columnExists tableName="publications" columnName="publication_year"/>
+                    <columnExists tableName="books" columnName="pages"/>
+                    <tableExists tableName="comic_issues"/>
+                    <tableExists tableName="magazine_issues"/>
+                </or>
+            </and>
+        </preConditions>
+
+        <sql>
+            PRAGMA foreign_keys = OFF;
+
+            CREATE TABLE publications_data AS
+            SELECT
+                id,
+                CASE
+                    WHEN type = 'MAGAZINE_ISSUE' THEN 'MAGAZINE'
+                    WHEN type = 'COMIC_ISSUE' THEN 'COMIC'
+                    ELSE type
+                END AS type,
+                title,
+                genre,
+                publication_year AS year,
+                created_at,
+                updated_at
+            FROM publications;
+
+            CREATE TABLE books_data AS
+            SELECT
+                b.id,
+                b.publication_id,
+                b.isbn,
+                (
+                    SELECT MIN(pa.author_id)
+                    FROM publication_authors pa
+                    WHERE pa.publication_id = b.publication_id
+                ) AS author_id,
+                b.created_at,
+                b.updated_at
+            FROM books b;
+
+            CREATE TABLE magazines_data AS
+            SELECT
+                id,
+                issue_number AS issue,
+                publication_id,
+                created_at,
+                updated_at
+            FROM magazine_issues;
+
+            CREATE TABLE comics_data AS
+            SELECT
+                id,
+                publication_id,
+                series_title AS series,
+                issue_number AS issue,
+                created_at,
+                updated_at
+            FROM comic_issues;
+
+            CREATE TABLE publication_authors_data AS
+            SELECT publication_id, author_id, created_at, updated_at
+            FROM publication_authors;
+
+            CREATE TABLE publication_items_data AS
+            SELECT id, publication_id, inventory_code, status, created_at, updated_at
+            FROM publication_items;
+
+            CREATE TABLE loans_data AS
+            SELECT id, publication_item_id, reader_id, loaned_at, due_at, returned_at, status
+            FROM loans;
+
+            DROP TABLE loans;
+            DROP TABLE publication_items;
+            DROP TABLE publication_authors;
+            DROP TABLE books;
+            DROP TABLE magazine_issues;
+            DROP TABLE comic_issues;
+            DROP TABLE publications;
+
+            CREATE TABLE publications (
+                id INTEGER CONSTRAINT pk_publications PRIMARY KEY AUTOINCREMENT NOT NULL,
+                type NVARCHAR(255) NOT NULL CHECK (type IN ('BOOK', 'MAGAZINE', 'COMIC')),
+                title NVARCHAR(255) NOT NULL,
+                genre NVARCHAR(255) NOT NULL,
+                year INTEGER NOT NULL CHECK (year &gt; 0),
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
+            );
+
+            INSERT INTO publications (id, type, title, genre, year, created_at, updated_at)
+            SELECT id, type, title, genre, year, created_at, updated_at
+            FROM publications_data;
+
+            CREATE TABLE books (
+                id INTEGER CONSTRAINT pk_books PRIMARY KEY AUTOINCREMENT NOT NULL,
+                publication_id INTEGER,
+                isbn NVARCHAR(255) NOT NULL,
+                author_id INTEGER,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                CONSTRAINT fk_books_publications FOREIGN KEY (publication_id) REFERENCES publications(id) ON DELETE CASCADE,
+                CONSTRAINT fk_books_authors FOREIGN KEY (author_id) REFERENCES authors(id),
+                CONSTRAINT ux_books_isbn UNIQUE (isbn)
+            );
+
+            INSERT INTO books (id, publication_id, isbn, author_id, created_at, updated_at)
+            SELECT id, publication_id, isbn, author_id, created_at, updated_at
+            FROM books_data;
+
+            CREATE TABLE magazines (
+                id INTEGER CONSTRAINT pk_magazines PRIMARY KEY AUTOINCREMENT NOT NULL,
+                issue INTEGER NOT NULL,
+                publication_id INTEGER,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                CONSTRAINT fk_magazines_publications FOREIGN KEY (publication_id) REFERENCES publications(id) ON DELETE CASCADE
+            );
+
+            INSERT INTO magazines (id, issue, publication_id, created_at, updated_at)
+            SELECT id, issue, publication_id, created_at, updated_at
+            FROM magazines_data;
+
+            CREATE UNIQUE INDEX ux_magazines_issue_publication
+                ON magazines (issue, publication_id);
+
+            CREATE TABLE comics (
+                id INTEGER CONSTRAINT pk_comics PRIMARY KEY AUTOINCREMENT NOT NULL,
+                publication_id INTEGER NOT NULL,
+                series NVARCHAR(255) NOT NULL,
+                issue INTEGER NOT NULL,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                CONSTRAINT fk_comics_publications FOREIGN KEY (publication_id) REFERENCES publications(id) ON DELETE CASCADE
+            );
+
+            INSERT INTO comics (id, publication_id, series, issue, created_at, updated_at)
+            SELECT id, publication_id, series, issue, created_at, updated_at
+            FROM comics_data;
+
+            CREATE UNIQUE INDEX ux_comics_issue_series_publication
+                ON comics (issue, series, publication_id);
+
+            CREATE TABLE publication_authors (
+                publication_id INTEGER NOT NULL,
+                author_id INTEGER NOT NULL,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                CONSTRAINT pk_publication_authors PRIMARY KEY (publication_id, author_id),
+                CONSTRAINT fk_publication_authors_publications FOREIGN KEY (publication_id) REFERENCES publications(id) ON DELETE CASCADE,
+                CONSTRAINT fk_publication_authors_authors FOREIGN KEY (author_id) REFERENCES authors(id) ON DELETE CASCADE
+            );
+
+            INSERT INTO publication_authors (publication_id, author_id, created_at, updated_at)
+            SELECT publication_id, author_id, created_at, updated_at
+            FROM publication_authors_data;
+
+            CREATE TABLE publication_items (
+                id INTEGER CONSTRAINT pk_publication_items PRIMARY KEY AUTOINCREMENT NOT NULL,
+                publication_id INTEGER NOT NULL,
+                inventory_code NVARCHAR(255) NOT NULL,
+                status NVARCHAR(255) NOT NULL,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                updated_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                CONSTRAINT fk_publication_items_publications FOREIGN KEY (publication_id) REFERENCES publications(id),
+                CONSTRAINT ux_publication_items_inventory_code UNIQUE (inventory_code),
+                CHECK (status IN ('AVAILABLE', 'LOANED', 'LOST', 'DAMAGED'))
+            );
+
+            INSERT INTO publication_items (id, publication_id, inventory_code, status, created_at, updated_at)
+            SELECT id, publication_id, inventory_code, status, created_at, updated_at
+            FROM publication_items_data;
+
+            CREATE TABLE loans (
+                id INTEGER CONSTRAINT pk_loans PRIMARY KEY AUTOINCREMENT NOT NULL,
+                publication_item_id INTEGER NOT NULL,
+                reader_id INTEGER NOT NULL,
+                loaned_at DATE NOT NULL,
+                due_at DATE NOT NULL,
+                returned_at DATE,
+                status NVARCHAR(255) NOT NULL,
+                CONSTRAINT fk_loans_publication_items FOREIGN KEY (publication_item_id) REFERENCES publication_items(id),
+                CONSTRAINT fk_loans_readers FOREIGN KEY (reader_id) REFERENCES readers(id)
+            );
+
+            INSERT INTO loans (id, publication_item_id, reader_id, loaned_at, due_at, returned_at, status)
+            SELECT id, publication_item_id, reader_id, loaned_at, due_at, returned_at, status
+            FROM loans_data;
+
+            CREATE UNIQUE INDEX ux_loans_active_item
+                ON loans (publication_item_id)
+                WHERE returned_at IS NULL;
+
+            DROP TABLE loans_data;
+            DROP TABLE publication_items_data;
+            DROP TABLE publication_authors_data;
+            DROP TABLE books_data;
+            DROP TABLE magazines_data;
+            DROP TABLE comics_data;
+            DROP TABLE publications_data;
+
+            PRAGMA foreign_keys = ON;
+        </sql>
+
+    </changeSet>
+
+</databaseChangeLog>
